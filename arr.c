@@ -1,12 +1,12 @@
 #include "arr.h"
 #include <string.h>
 
-Arr* arr_create(size_t initial_capacity) {
+arr_t* arr_create(size_t initial_capacity) {
     if (initial_capacity == 0) {
         initial_capacity = 4;
     }
 
-    Arr* arr = malloc(sizeof(Arr));
+    arr_t* arr = malloc(sizeof(arr_t));
     if (!arr) {
         return NULL;
     }
@@ -22,7 +22,7 @@ Arr* arr_create(size_t initial_capacity) {
     return arr;
 }
 
-void arr_destroy(Arr* arr) {
+void arr_destroy(arr_t* arr) {
     if (!arr) return;
     
     if (arr->data) {
@@ -31,7 +31,7 @@ void arr_destroy(Arr* arr) {
     free(arr);
 }
 
-bool arr_push(Arr* arr, void* element) {
+bool arr_push(arr_t* arr, void* element) {
     if (!arr) return false;
 
     if (arr->size >= arr->capacity) {
@@ -45,14 +45,14 @@ bool arr_push(Arr* arr, void* element) {
     return true;
 }
 
-void* arr_get(Arr* arr, size_t index) {
+void* arr_get(arr_t* arr, size_t index) {
     if (!arr || index >= arr->size) {
         return NULL;
     }
     return arr->data[index];
 }
 
-bool arr_set(Arr* arr, size_t index, void* element) {
+bool arr_set(arr_t* arr, size_t index, void* element) {
     if (!arr || index >= arr->size) {
         return false;
     }
@@ -60,7 +60,7 @@ bool arr_set(Arr* arr, size_t index, void* element) {
     return true;
 }
 
-bool arr_remove(Arr* arr, size_t index) {
+bool arr_remove(arr_t* arr, size_t index) {
     if (!arr || index >= arr->size) {
         return false;
     }
@@ -73,11 +73,11 @@ bool arr_remove(Arr* arr, size_t index) {
     return true;
 }
 
-size_t arr_size(Arr* arr) {
+size_t arr_size(arr_t* arr) {
     return arr ? arr->size : 0;
 }
 
-bool arr_resize(Arr* arr, size_t new_capacity) {
+bool arr_resize(arr_t* arr, size_t new_capacity) {
     if (!arr || new_capacity < arr->size) {
         return false;
     }
