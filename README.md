@@ -1,112 +1,106 @@
-# Arr 🚀
+# Arr 📊
 
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Language](https://img.shields.io/badge/language-C-blue)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/DilemaFixer/Arr)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/DilemaFixer/Arr/releases)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/DilemaFixer/Arr/blob/main/LICENSE)
+[![Language](https://img.shields.io/badge/language-C-orange)](https://github.com/DilemaFixer/Arr)
 
-A lightweight, dynamic array library in C providing flexible and easy-to-use array management with dynamic resizing capabilities.
+A lightweight, dynamic array implementation for C that provides flexible storage and automatic resizing capabilities.
 
 ## 📥 Installation
 
-### Unix-based Systems (Linux, macOS)
+### Unix-based systems (Linux, macOS)
 ```bash
-# Download arr.h
 curl -o arr.h https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h
-
-# Download arr.c
 curl -o arr.c https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c
 ```
 
 ### Windows
-```powershell
-# Download arr.h
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h -OutFile arr.h
-
-# Download arr.c
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c -OutFile arr.c
+```cmd
+curl -o arr.h https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h
+curl -o arr.c https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c
 ```
 
-## 🛠 API and Usage Examples
+## 🔧 API and Usage Examples
 
-### Data Structure
+### Dynamic Array
 
+A generic, dynamic array implementation that stores void pointers and automatically resizes when needed.
+
+#### Core Structure
 ```c
 typedef struct {
-    void** data;     // Pointer to the array of void pointers
-    size_t size;     // Current number of elements in the array
-    size_t capacity; // Total allocated capacity of the array
-} Arr;
+    void** data;    // Pointer array for storing elements
+    size_t size;    // Current number of elements
+    size_t capacity; // Total capacity of the array
+} arr_t;
 ```
 
-### Core Functions
-
-#### Array Creation and Destruction
-
+#### Functions
 ```c
-// Create a new array with initial capacity
-Arr* arr_create(size_t initial_capacity);
+arr_t* arr_create(size_t initial_capacity);
+// Creates a new dynamic array with specified initial capacity
 
-// Destroy and free the array
-void arr_destroy(Arr* arr);
+void arr_destroy(arr_t* arr);
+// Frees all resources associated with the array
+
+bool arr_push(arr_t* arr, void* element);
+// Adds an element to the end of the array
+
+void* arr_get(arr_t* arr, size_t index);
+// Retrieves the element at the specified index
+
+bool arr_set(arr_t* arr, size_t index, void* element);
+// Sets the element at the specified index
+
+bool arr_remove(arr_t* arr, size_t index);
+// Removes the element at the specified index
+
+size_t arr_size(arr_t* arr);
+// Returns the number of elements in the array
+
+bool arr_resize(arr_t* arr, size_t new_capacity);
+// Resizes the array to the specified capacity
 ```
 
-#### Element Manipulation
-
-```c
-// Add an element to the end of the array
-bool arr_push(Arr* arr, void* element);
-
-// Get an element at a specific index
-void* arr_get(Arr* arr, size_t index);
-
-// Set an element at a specific index
-bool arr_set(Arr* arr, size_t index, void* element);
-
-// Remove an element at a specific index
-bool arr_remove(Arr* arr, size_t index);
-```
-
-#### Array Management
-
-```c
-// Get the current number of elements in the array
-size_t arr_size(Arr* arr);
-
-// Resize the array to a new capacity
-bool arr_resize(Arr* arr, size_t new_capacity);
-```
-
-### Usage Example
-
+#### Usage Example
 ```c
 #include "arr.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-int main() {
-    // Create an array
-    Arr* myArray = arr_create(4);
-
-    // Push some elements
-    int a = 10, b = 20, c = 30;
-    arr_push(myArray, &a);
-    arr_push(myArray, &b);
-    arr_push(myArray, &c);
-
-    // Get and print elements
-    for (size_t i = 0; i < arr_size(myArray); i++) {
-        int* element = (int*)arr_get(myArray, i);
-        printf("%d ", *element);
+// Example of storing integers (must be heap-allocated for persistence)
+void integer_example() {
+    // Create a new array with initial capacity of 4
+    arr_t* array = arr_create(4);
+    
+    // Add some integers to the array
+    for (int i = 0; i < 10; i++) {
+        int* value = malloc(sizeof(int));
+        *value = i * 10;
+        arr_push(array, value);
     }
-
-    // Clean up
-    arr_destroy(myArray);
-    return 0;
+    
+    // Access elements
+    for (size_t i = 0; i < arr_size(array); i++) {
+        int* value = arr_get(array, i);
+        printf("Element at index %zu: %d\n", i, *value);
+    }
+    
+    // Modify an element
+    int* new_value = malloc(sizeof(int));
+    *new_value = 500;
+    arr_set(array, 5, new_value);
+    
+    // Remove an element
+    arr_remove(array, 2);
+    
+    // Clean up (free the array and its data)
+    for (size_t i = 0; i < arr_size(array); i++) {
+        free(arr_get(array, i));
+    }
+    arr_destroy(array);
 }
 ```
 
-### Required Header
-
-```c
-#include "arr.h"
-```
+Required headers: `arr.h`, `stdio.h`, `stdlib.h`
