@@ -30,18 +30,18 @@ A generic, dynamic array implementation that stores void pointers and automatica
 #### Core Structure
 ```c
 typedef struct {
-    void** data;    // Pointer array for storing elements
-    size_t size;    // Current number of elements
+    void** items;    // Pointer array for storing elements
+    size_t count;    // Current number of elements
     size_t capacity; // Total capacity of the array
 } arr_t;
 ```
 
 #### Functions
 ```c
-arr_t* arr_create(size_t initial_capacity);
+arr_t* new_arr(size_t initial_capacity);
 // Creates a new dynamic array with specified initial capacity
 
-void arr_destroy(arr_t* arr);
+void free_arr(arr_t* arr);
 // Frees all resources associated with the array
 
 bool arr_push(arr_t* arr, void* element);
