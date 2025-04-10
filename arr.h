@@ -5,13 +5,13 @@
 #include <stdbool.h>
 
 typedef struct {
-    void** data;
-    size_t size;
+    void** items;
+    size_t count;
     size_t capacity;
 } arr_t;
 
-arr_t* arr_create(size_t initial_capacity);
-void arr_destroy(arr_t* arr);
+arr_t* new_arr(size_t initial_capacity);
+void free_arr(arr_t* arr);
 bool arr_push(arr_t* arr, void* element);
 void* arr_get(arr_t* arr, size_t index);
 bool arr_set(arr_t* arr, size_t index, void* element);
