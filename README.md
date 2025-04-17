@@ -9,14 +9,7 @@ A lightweight, dynamic array implementation for C that provides flexible storage
 
 ## 📥 Installation
 
-### Unix-based systems (Linux, macOS)
 ```bash
-curl -o arr.h https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h
-curl -o arr.c https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c
-```
-
-### Windows
-```cmd
 curl -o arr.h https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h
 curl -o arr.c https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c
 ```
